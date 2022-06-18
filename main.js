@@ -24,12 +24,8 @@ class Ship{
         }
         return enemyHealth
     }
-
-    damage(enemyFirepower){
-        this.hull -= enemyFirepower
-    }
-
-}// create player ship with the following properties
+}
+// create player ship with the following properties
 // hull - 20
 // firepower - 5
 // accuracy - .7
@@ -38,7 +34,7 @@ class Ship{
 function createPlayerShip(){
     let playerShip
     let input = prompt("What is the name of your ship?")
-    playerShip = new Ship(input,20,1,.7)
+    playerShip = new Ship(input,20,5,.7)
     return playerShip
 }
 
@@ -62,42 +58,31 @@ function createEnemyShips(amount){
     return enemyFleet
 }
 
-// console.log(createEnemyShips(20))
-
-
-// ask the player if they want to fight or run
-// function getPlayerResponse(){
-//     let input = prompt('do you attack the enemy?')
-//     return input
-// }
-
 
 // battle function
-function battle(){
-const player = createPlayerShip()
-const enemies = createEnemyShips(1)
-console.log(enemies)
-console.log(enemies[0])
-
-console.log(`Your ship ${player.shipName} begins battle with ${enemies[0].shipName} #${i+1}` )
-while(enemies[0].hull > 0 && player.hull != 0 ){
+function battle(player, enemies){
+console.log(`Your ship ${player.shipName} begins battle with ${enemies.shipName} #${i+1}` )
+while(enemies.hull > 0 && player.hull != 0 ){
     let input = prompt('Will you attack the enemy or run away?')
     if(input === "attack"){
-          console.log(`${player.shipName} attacks ${enemies[0].shipName}!`) 
-          enemies[0].hull = player.attack(enemies[0].hull, enemies[0].shipName)
+          console.log('======================================================')
+          console.log(`${player.shipName} attacks ${enemies.shipName}!`) 
+          enemies.hull = player.attack(enemies.hull, enemies.shipName)
           console.log('======================================================')
 
           //check to see if enemy is still alive
           //if enemy is alive have it fire back
-          if(enemies[0].hull > 0){
-          console.log(`${enemies[0].shipName} fires back! `)
-          player.hull = enemies[0].attack(player.hull, player.shipName)
+          if(enemies.hull > 0){
+          console.log(`${enemies.shipName} fires back! `)
+          player.hull = enemies.attack(player.hull, player.shipName)
+          console.log('======================================================')
           //check to see if enemy health is at or below 0
           //if so they are destroyed
-          } else if (enemies[0].hull <= 0){
-                console.log(`${enemies[0].shipName} is destroyed`)
+          } else if (enemies.hull <= 0){
+                console.log(`${enemies.shipName} is destroyed`)
+                console.log('======================================================')
           //check if the player is still alive
-          //if helth is at or below 0 the player is destroyed and the game ends
+          //if haelth is at or below 0 the player is destroyed and the game ends
           } else if (player.hull <= 0 ){
                 console.log(`${player.shipName} has been destroyed! game over `)
                 break;
@@ -113,58 +98,41 @@ while(enemies[0].hull > 0 && player.hull != 0 ){
 }
 }
 
-battle()
+//funtion to put together and run the game
+function playGame(){
+    const player = createPlayerShip()
+    let amount = prompt('How man computers would you like to face?')
+    const enemies = createEnemyShips(amount)
+    // correct grammar 
+    let word;
+    if (enemies.length > 1){
+        word = "ships"
+    }else{
+        word = 'ship'
+    }
 
-// battle(playerShip,createEnemyShips(6))
+    console.log(`An alien fleet of ${enemies.length} ${word} approaches earth! Earth's only hope, the noble 
+    space ship ${player.shipName}, is the only thing that stands in their way! `)
 
+    for (i = 0; i < enemies.length; i++){
+        // console.log(enemies[i])
+        battle(player, enemies[i])
+    }
 
+    ////NEED TO SET WIN CONDITION. NEED TO REMOVE ENEMY SHIPS FROM ARRAY. TRYING BREAKING OUT OF FOR LOOP
+    ///AND CLEARING ARRAY?
+    ///NEED TO FIX PLAYER HEALTH REACHING 0 ENDING THE GAME
 
-// original battle function 
-
-// function battle(player,enemies){
-//     let playerHealth = playerShip.hull
-//     // console.log(player)
-//     // console.log(enemies)
+console.log(enemies)
     
-//     for(i = 0; i < enemies.length; i++){
-        
-//     console.log(`Your ship ${player.shipName} begins battle with ${enemies[i].shipName} #${i+1}` )
-//     let input = prompt('do you attack the enemy?')
-//     //attacking
-//     if(input === "attack"){
-    
-       
-//        // test while loop 
-//         while(enemies[i].hull> 0 && playerHealth > 0){
-//         let startHealth = enemies[i].hull
-//         let endHealth = enemies[i].hull -= player.firepower
-//         let enemyFirepower = enemies[i].firepower
-//         console.log(`your health is ${playerHealth}`)
-//         console.log(`enemies hull before attack = ${startHealth}`)
-//         console.log(`you attacked the enemy for ${player.firepower} enemies hull after attack = ${endHealth}`)
-//         if (endHealth<= 0 === true){
-//             console.log(`${enemies[i].shipName} is desrtoyed! `) 
-//         }else if(endHealth > 0 === true){
-//             playerHealth -= enemyFirepower
-//         }else if(playerHealth <= 0){
-//             console.log("you are destroyed")
-//             break;
-//         }
-//     }
-//     }else if (input === 'run'){
-//         console.log("you ran away. game over")
-//         break;
-//     }else if(input !== 'run' || input !== attack){
-//         console.log("please enter 'attack' to attack the enemy or 'run' to run away")
-//     }
-// }
-//     // if (enemies.length ){
-//     //     console.log("you win!")
-//     // }
-//     // console.log(enemies[i])
+// if(enemies.length = 0){
+//     console.log("You win!")
     
 // }
-// // battle(playerShip, createEnemyShips(10)) 
+
+}
+playGame();
 
 
-// battle(playerShip,createEnemyShips(6))
+
+
