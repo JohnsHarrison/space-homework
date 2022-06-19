@@ -82,7 +82,7 @@ while(enemies.hull > 0 && player.hull != 0 ){
                 console.log(`${enemies.shipName} is destroyed`)
                 console.log('======================================================')
           //check if the player is still alive
-          //if haelth is at or below 0 the player is destroyed and the game ends
+          //if health is at or below 0 the player is destroyed and the game ends
           } else if (player.hull <= 0 ){
                 console.log(`${player.shipName} has been destroyed! game over `)
                 break;
@@ -117,18 +117,19 @@ function playGame(){
     for (i = 0; i < enemies.length; i++){
         // console.log(enemies[i])
         battle(player, enemies[i])
+        // enemies.pop()
     }
 
-    ////NEED TO SET WIN CONDITION. NEED TO REMOVE ENEMY SHIPS FROM ARRAY. TRYING BREAKING OUT OF FOR LOOP
-    ///AND CLEARING ARRAY?
-    ///NEED TO FIX PLAYER HEALTH REACHING 0 ENDING THE GAME
-
-console.log(enemies)
-    
-// if(enemies.length = 0){
-//     console.log("You win!")
-    
-// }
+   
+// if the last enemies health is 0 all ships must be destroyed.
+// Tell the player they won and ask to play again
+if(enemies[amount-1].hull <= 0){
+    console.log("You win!")
+    let input = prompt('Would you like to play again? "yes" or "no"?')
+    if(input == 'yes'){
+        playGame()
+    }
+}
 
 }
 playGame();
