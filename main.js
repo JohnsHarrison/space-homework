@@ -62,7 +62,7 @@ function createEnemyShips(amount){
 // battle function
 function battle(player, enemies){
 console.log(`Your ship ${player.shipName} begins battle with ${enemies.shipName} #${i+1}` )
-while(enemies.hull > 0 && player.hull != 0 ){
+while(enemies.hull > 0 && player.hull > 0 === true){
     let input = prompt('Will you attack the enemy or run away?')
     if(input === "attack"){
           console.log('======================================================')
@@ -81,9 +81,10 @@ while(enemies.hull > 0 && player.hull != 0 ){
           } else if (enemies.hull <= 0){
                 console.log(`${enemies.shipName} is destroyed`)
                 console.log('======================================================')
+          }
           //check if the player is still alive
           //if health is at or below 0 the player is destroyed and the game ends
-          } else if (player.hull <= 0 ){
+          if (player.hull <= 0 ){
                 console.log(`${player.shipName} has been destroyed! game over `)
                 break;
           } 
@@ -97,6 +98,11 @@ while(enemies.hull > 0 && player.hull != 0 ){
           }
 }
 }
+//replay the game 
+function replay(){
+    playGame()
+}
+
 
 //funtion to put together and run the game
 function playGame(){
@@ -113,12 +119,17 @@ function playGame(){
 
     console.log(`An alien fleet of ${enemies.length} ${word} approaches earth! Earth's only hope, the noble 
     space ship ${player.shipName}, is the only thing that stands in their way! `)
-
-    for (i = 0; i < enemies.length; i++){
-        // console.log(enemies[i])
+  
+     for (i = 0; i < enemies.length; i++){
+        //if the player dies the game is over
+        if (player.hull > 0 === false){
+            break;
+        }
         battle(player, enemies[i])
-        // enemies.pop()
-    }
+        
+        }
+        
+    
 
    
 // if the last enemies health is 0 all ships must be destroyed.
@@ -127,7 +138,9 @@ if(enemies[amount-1].hull <= 0){
     console.log("You win!")
     let input = prompt('Would you like to play again? "yes" or "no"?')
     if(input == 'yes'){
-        playGame()
+       replay()
+    }else if (input !== 'yes' && input != 'no'){
+        console.log('please enter "yes" or "no" ')
     }
 }
 
